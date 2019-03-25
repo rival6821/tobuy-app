@@ -10,15 +10,26 @@ import {
   ScrollView
 } from 'react-native';
 import ToBuy from './ToBuy';
+import { AppLoading } from 'expo';
+import uuidv1 from 'uuid/v1';
 
 const { height, width } = Dimensions.get("window");
 
 export default class App extends React.Component {
   state = {
     newTodo: '',
+    loadedTodos : false
   }
+
+  componentDidMount = () => {
+    this._loadTodos();
+  }
+
   render() {
-    const { newTodo } = this.state;
+    const { newTodo,loadedTodos } = this.state;
+    if(!loadedTodos){
+      return <AppLoading />
+    }
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -32,6 +43,7 @@ export default class App extends React.Component {
             placeholderTextColor={'#999'}
             returnKeyType={'done'}
             autoCorrect={false}
+            onSubmitEditing={this._addTodo}
           />
           <ScrollView contentContainerStyle={styles.todos}>
             <ToBuy text={'hello'}/>
@@ -44,6 +56,36 @@ export default class App extends React.Component {
     this.setState({
       newTodo: text
     })
+  }
+  _loadTodos = () => {
+    this.setState({
+      loadedTodos : true
+    })
+  }
+  _addTodo = () => {
+    const { newTodo } = this.state;
+    if(newTodo !== ''){
+      this.setState(prevState => {
+        const ID = uuidv1();
+        const newTodoObject = {
+          [ID] : {
+            id : ID,
+            isCompleted : false,
+            text : newTodo,
+            createdAt : Date.now()
+          }
+        };
+        const newState = {
+          ...prevState,
+          enwToDo : '',
+          toDos : {
+            ...prevState.toDos,
+            ...newTodoObject
+          }
+        };
+        return { ...newState };
+      });
+    }
   }
 }
 
