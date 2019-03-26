@@ -25,10 +25,12 @@ class ToBuy extends Component {
         isCompleted : PropTypes.bool.isRequired,
         deleteTodo : PropTypes.func.isRequired,
         id : PropTypes.string.isRequired,
+        uncompleteToDo : PropTypes.func.isRequired,
+        completeToDo : PropTypes.func.isRequired,
     }
     render() {
-        const { isCompleted, isEditing, toDoValue } = this.state;
-        const { text, id, deleteTodo }  = this.props;
+        const {isEditing, toDoValue } = this.state;
+        const { text, id, deleteTodo, isCompleted }  = this.props;
         return (
             <View style={styles.container}>
                 <View style={styles.column}>
@@ -73,11 +75,12 @@ class ToBuy extends Component {
         );
     }
     _toggleComplete = () => {
-        this.setState(prevState => {
-            return ({
-                isCompleted : !prevState.isCompleted,
-            })
-        })
+        const { isCompleted, uncompleteToDo, completeToDo,id } = this.props;
+        if(isCompleted){
+            uncompleteToDo(id);
+        }else{
+            completeToDo(id);
+        }
     }
     _startEditing = () => {
         this.setState({
