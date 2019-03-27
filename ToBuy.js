@@ -27,6 +27,7 @@ class ToBuy extends Component {
         id : PropTypes.string.isRequired,
         uncompleteToDo : PropTypes.func.isRequired,
         completeToDo : PropTypes.func.isRequired,
+        updateToDo : PropTypes.func.isRequired,
     }
     render() {
         const {isEditing, toDoValue } = this.state;
@@ -64,7 +65,7 @@ class ToBuy extends Component {
                                     <Text style={styles.actionText}>✏</Text>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => deleteTodo(id)}>
+                            <TouchableOpacity onPress={(evnet) => {event.stopPropagation; deleteTodo(id);}}>
                                 <View style={styles.actionContainer}>
                                     <Text style={styles.actionText}>❌</Text>
                                 </View>
@@ -74,7 +75,8 @@ class ToBuy extends Component {
             </View>
         );
     }
-    _toggleComplete = () => {
+    _toggleComplete = (event) => {
+        event.stopPropagation;
         const { isCompleted, uncompleteToDo, completeToDo,id } = this.props;
         if(isCompleted){
             uncompleteToDo(id);
@@ -82,12 +84,17 @@ class ToBuy extends Component {
             completeToDo(id);
         }
     }
-    _startEditing = () => {
+    _startEditing = (event) => {
+        event.stopPropagation;
         this.setState({
             isEditing : true
         })
     }
-    _finishEditing = () => {
+    _finishEditing = (event) => {
+        event.stopPropagation;
+        const { toDoValue } = this.state;
+        const { id, updateToDo } = this.props;
+        updateToDo(id, toDoValue);
         this.setState({
             isEditing : false
         })
@@ -97,6 +104,7 @@ class ToBuy extends Component {
             toDoValue : text
         })
     }
+   
 }
 
 const styles = StyleSheet.create({
