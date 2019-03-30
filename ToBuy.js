@@ -45,6 +45,7 @@ class ToBuy extends Component {
                         onChangeText = {this._controlInput}
                         returnKeyType = {'done'}
                         onBlur={this._finishEditing}
+                        underlineColorAndroid={"transparent"}
                         />
                      : 
                         <Text style={[styles.text, isCompleted ? styles.completedText : styles.uncompletedText]}>{text}</Text>
