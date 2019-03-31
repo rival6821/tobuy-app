@@ -66,7 +66,7 @@ class ToBuy extends Component {
                                     <Text style={styles.actionText}>✏</Text>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={(evnet) => {event.stopPropagation; deleteTodo(id);}}>
+                            <TouchableOpacity onPress={(event) => {event.stopPropagation; deleteTodo(id);}}>
                                 <View style={styles.actionContainer}>
                                     <Text style={styles.actionText}>❌</Text>
                                 </View>
