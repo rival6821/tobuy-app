@@ -8,11 +8,13 @@ import {
   Dimensions,
   Platform,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
+  TouchableOpacity
 } from 'react-native';
 import ToBuy from './ToBuy';
 import { AppLoading } from 'expo';
 import uuidv1 from 'uuid/v1';
+import { isAbsolute } from 'path';
 
 const { height, width } = Dimensions.get("window");
 
@@ -36,6 +38,11 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <Text style={styles.title}>오늘살것목록</Text>
+        <TouchableOpacity onPress={this._onPressTrash}>
+            <View style={styles.trash}>
+              <Text style={styles.trash}>휴지통</Text>
+            </View>
+          </TouchableOpacity>
         <View style={styles.card}>
           <TextInput 
             style={styles.input} 
@@ -179,6 +186,10 @@ const styles = StyleSheet.create({
     marginTop: 50,
     fontWeight: "200",
     marginBottom: 30
+  },
+  trash : {
+    position : absolute,
+
   },
   card: {
     backgroundColor: 'white',
